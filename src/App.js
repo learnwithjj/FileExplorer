@@ -1,24 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import './App.css';
-import {Link} from "react-router-dom";
-import {View,TextInput} from "react-native-web";
+import {Link,Redirect} from "react-router-dom";
+import {useNavigate} from "react-router";
+
+import {TextInput} from "react-native-web";
+
 function App() {
   const [pin,setPin]=React.useState("");
   const [confirmpin,setconfirmPin]=React.useState("");
-  const checkInput = ()=>
-  {
-    if(pin.length === 0 || confirmpin.length === 0)
-    {
-      alert("Enter all the fields!!");
-    }  
-    if(pin !== confirmpin)
-    {
-      alert("Entered pin doesnt match!!");
-    }
-    <Link to="/main" style={{ textDecoration : 'none ', color:'white',textAlign:'center'}}></Link>
-  }
+  let navigate=useNavigate();
   
-
+  function handleClick()
+  {
+      if(pin.length===0 || confirmpin.length===0)
+      {
+        alert("Empty field");
+        return;
+      }
+      else if(pin.length !== 4 || confirmpin.length!==4 && pin !==confirmpin && isNaN(pin))
+      { 
+          alert("Type again...");
+          return;
+      }
+      navigate("/main",{state:{password:pin}});
+  }
   return (
     <div className="App">
       
@@ -38,15 +43,21 @@ function App() {
 
       <div className='rightdiv' style={{float:"right"}}>
         <h1 className='insideh1'>Set your account pin</h1>
-        <TextInput style={{border:"0.5px solid lightgray",paddingRight:"200px",padding:"15px",marginLeft:"40px",paddingLeft:"20px",marginBottom:"20px"} }  placeholder='Enter new pin' onChangeText={a=>setPin(a)}></TextInput><br/>
-        <TextInput style={{border:"0.5px solid lightgray",paddingRight:"200px",padding:"15px",marginLeft:"40px",paddingLeft:"20px"} }   placeholder='Confirm new pin' onChangeText={b=>setconfirmPin(b)}></TextInput><br/>
-        <button className='buttonsavechanges' onClick={ checkInput} >Save Changes</button>
+        <TextInput style={{border:"0.5px solid lightgray",paddingRight:"200px",padding:"15px",marginLeft:"40px",paddingLeft:"20px",marginBottom:"20px"} } secureTextEntry={true} placeholder='Enter new pin' onChangeText={a=>setPin(a)}></TextInput><br/>
+        <TextInput style={{border:"0.5px solid lightgray",paddingRight:"200px",padding:"15px",marginLeft:"40px",paddingLeft:"20px"} } secureTextEntry={true}  placeholder='Confirm new pin' onChangeText={b=>setconfirmPin(b)}></TextInput><br/>
+       
+        <button className='buttonsavechanges' onClick={handleClick} >Save Changes</button> 
       </div>
 
 
       </div>
     </div>
   );
+   
+
+
+
+
 }
 
 export default App;

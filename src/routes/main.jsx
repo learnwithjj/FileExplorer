@@ -1,15 +1,20 @@
-// import { useState } from 'react';
+import {ProSidebar,SidebarHeader,SidebarFooter, SidebarContent} from "react-pro-sidebar";
 import './main.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faFile,faFolder,faPlusCircle,faSearch,faSun,faMoon,faLock,faSlidersH, faFolderOpen} from '@fortawesome/fontawesome-free-solid';
-import React from 'react';
+import {faFile,faFolder,faPlusCircle,faSearch,faSun,faMoon,faLock,faSlidersH, faFolderOpen,faArrowAltCircleLeft,faArrowAltCircleRight} from '@fortawesome/fontawesome-free-solid';
+import React, { useCallback ,useState} from 'react';
 import Popup from 'reactjs-popup';
 import Pop from '../Pop'; 
 import { TextInput } from "react-native-web";
+import {useLocation} from "react-router-dom";
+import "react-pro-sidebar/dist/css/styles.css";
+// import Header from "./Header";
+// import "./Header.css";
 
-
- function Main()
+function Main()
 {
+  
+   
     const menu=[{
         title :"Some folder name",
         children:[
@@ -62,7 +67,7 @@ import { TextInput } from "react-native-web";
    const [popupSetting,showPopUpSetting]=React.useState(false);
    const [popupFile,showPopUpFile]=React.useState(false);
    const [popupFolder,showPopUpFolder]=React.useState(false);
-  
+   const [popupLock,showpopupLock]=React.useState(false);
   const [text,setText]=React.useState('');
   const createFile = ()=>
    {
@@ -70,44 +75,163 @@ import { TextInput } from "react-native-web";
       {
         alert("Enter file name !!");
       }
-      
    }
+   const location=useLocation();
+  
+  
+   const [a,setA]=React.useState("");
+   const [b,setB]=React.useState("");
+   const [c,setC]=React.useState("");
+   const [d,setD]=React.useState("");
+    
+  const validate =()=>
+  {
+    if(location.state.password !==(a+b+c+d))
+     {
+       alert("wrong password");
+       return false;
+     }
+     showpopupLock(false);
+     setA("");
+     setB("");
+     setC("");
+     setD ("");
+
+  }
+    const [newPin,setnewpin]=React.useState("");
+    const [confirmnewPin,setconfirmnewpin]=React.useState("");
+    function newPinfun()
+    {
+      if(newPin.length===0 || confirmnewPin.length===0)
+      {
+        alert("Enter all the fields");
+        return;
+      }
+      if(newPin!==confirmnewPin && newPin.length!==4 && confirmnewPin.length!==4 && isNaN(newPin))
+      {
+        alert("Type again ...");
+        return;
+      }
+      location.state.password=newPin;
+      showPopUpSetting(false);  
+    }
+    
+    let currpos="";
+    function Menu({ items }) {
+      const [displayChildren, setDisplayChildren] = useState({});
+      
+      return (
+        <ul>
+          {items.map((item) => {
+            return (
+              <div key={item.title}>
+                  <button id="displayFolder"
+                    onClick={() => {
+                      setDisplayChildren({
+                        ...displayChildren,
+                        [item.title]: !displayChildren[item.title],
+                      }, currpos=item.path    );
+                    }}
+                  >
+                   {displayChildren[item.title] ? <FontAwesomeIcon icon={faFolderOpen}/> : <FontAwesomeIcon icon={faFolder}/>  }    {item.title }
+                  </button>
+                
+                {displayChildren[item.title]  && item.children && <Menu items={item.children} />}
+              </div>
+            );
+          })}
+        </ul>
+      );
+    }
+  
+    const ref1=React.useRef();
+    const ref2=React.useRef();
+    const ref3=React.useRef();
+    const ref4=React.useRef();
+    const ref5=React.useRef();
 
     
-    return(
-        
-    
-        
+      //create initial menuCollapse state using useState hook
+      const [menuCollapse, setMenuCollapse] = useState(false)
+  
+      //create a custom function that will change menucollapse state from false to true and true to false
+    const menuIconClick = () => {
+      //condition checking to change state from true to false and vice versa
+      menuCollapse ? setMenuCollapse(false) : setMenuCollapse(true);
+    };
+ 
+    return(      
         <div className='Main' style={{display : 'flex'}}>
-
-            <div className='left'>      
-                <img src='symbol.PNG' alt='' id="img1"></img> 
+        
+        <div id="header" >
+        <ProSidebar collapsed={menuCollapse}>
+          <SidebarHeader>
+          
+            <div className="closemenu" onClick={menuIconClick}>
+                {/* changing menu collapse icon on click */}
+              {menuCollapse ? (
+                <FontAwesomeIcon icon={faArrowAltCircleRight}/>
+              ) : (
+                <FontAwesomeIcon icon={faArrowAltCircleLeft}/>
+              )}
+            </div>
+          </SidebarHeader>
+          <SidebarFooter>
+        <div className="left" >
+          <img src='symbol.PNG' alt='' id="img1"></img> 
                 <div style={{display: 'flex'}}>
                  <button id="addiconbutton" onClick={()=>showPopUpFile(true)} style={{cursor:"pointer"}}><FontAwesomeIcon icon={faFile} style={{padding: '0px 10px 0px 5px'}}/>Add File</button>
+                 
                  <Pop trigger={popupFile} setTrigger={showPopUpFile} >
                     <h3 style={{fontSize:"14px"}}>Create File</h3>
                     <h5 style={{fontSize:"17px"}}>Enter File name</h5>
-                    <TextInput style={{border:"0.5px solid lightgray",paddingRight:"140px",padding:"10px"} } placeholder="Enter here"  onChangeText={a=> setText(a)} defaultValue={""}></TextInput>
+                    <TextInput style={{border:"0.5px solid lightgray",paddingRight:"140px",padding:"10px"} } placeholder="Enter here"  onChangeText={a=> setText(a)} ></TextInput>
                     <h3 style={{fontSize:"14px"}}>Edit Text</h3>
                     <TextInput style={{border:"0.5px solid lightgray",paddingBottom:"500px",paddingRight:"200px",paddingLeft:"10px",paddingTop:"10px"}} placeholder={"Type anything here"}></TextInput>
                     <button id="save" onClick={createFile}>Create new</button>
                   </Pop>
 
                  <button id="addiconbutton" onClick={()=>showPopUpFolder(true)} style={{cursor:"pointer"}}><FontAwesomeIcon icon={faFolder} style={{padding: '0px 10px 0px 5px'}}/>Add Folder</button>
-                 <Pop trigger={popupFolder} setTrigger={showPopUpFolder} >
+                 <Pop trigger={popupFolder} setTrigger={showPopUpFolder}  >
                   <h3 style={{fontSize:"14px"}}>Create Folder</h3>
                   <h5 style={{fontSize:"17px"}}>Enter Folder name</h5>
                   <TextInput style={{border:"0.5px solid lightgray",paddingRight:"140px",padding:"10px"} } placeholder="Enter here"></TextInput>
                   <button id="save">Create new</button>
-                  </Pop>
+                  </Pop> 
                  
                  </div>
                 <div>
                     <Menu items={menu}/>
                 </div>
-                 <button id="lockbutton"><FontAwesomeIcon icon={faLock} style={{paddingRight:'15px'}} />Lock Screen</button>
-             </div>
+                 <button id="lockbutton"  onClick={()=>showpopupLock(true)}><FontAwesomeIcon icon={faLock} style={{paddingRight:'15px'}} />Lock Screen</button>
 
+
+                 <Pop trigger={popupLock}  >
+                 <h3 style={{fontSize:"18px",marginLeft:"30px",fontFamily:"Bold"}}>Enter Account Pin</h3> 
+                   <div style={{display:"flex"}}>
+                  <TextInput  style={{height:"60px",border:"0.5px solid lightgray",margin:"20px",width:"70px",textAlign:"center"}} ref={ref1}  maxLength={1} value={a}  secureTextEntry={true}  onChangeText={(value)=>{setA(value);ref2.current.focus();}  }  />
+                  
+                   
+                  <TextInput  style={{height:"60px",border:"0.5px solid lightgray",margin:"20px",width:"70px",textAlign:"center"}} ref={ref2} maxLength={1} value={b}  secureTextEntry={true}  onChangeText={(value)=>{setB(value);ref3.current.focus();}}/> 
+                   <TextInput   style={{height:"60px",border:"0.5px solid lightgray",margin:"20px",width:"70px",textAlign:"center"}} ref={ref3}  maxLength={1} value={c}  secureTextEntry={true}  onChangeText={(value)=>{setC(value);ref4.current.focus();}} 
+                  
+                  /> 
+                   
+                    
+                  <TextInput   style={{height:"60px",border:"0.5px solid lightgray",margin:"20px",width:"70px",textAlign:"center"}} ref={ref4}  maxLength={1} value={d}  secureTextEntry={true}  onChangeText={(value)=>{setD(value);ref5.current.focus();}} 
+                  
+                    /> 
+                   
+                   </div>
+                  
+                  
+                  <button id="save" ref={ref5} onClick={ validate}>Enter</button>
+                  </Pop > 
+          </div>
+          </SidebarFooter>
+          </ProSidebar> </div>
+            
+               
 
              <div id='right'>
 
@@ -132,7 +256,7 @@ import { TextInput } from "react-native-web";
 
 
                   <p onClick={()=>showPopUpFile(true)} style={{cursor:"pointer"}}>New File</p>
-                  <Pop trigger={popupFile} setTrigger={showPopUpFile} >
+                  <Pop trigger={popupFile} setTrigger={showPopUpFile}  >
                     <h3 style={{fontSize:"14px"}}>Create File</h3>
                     <h5 style={{fontSize:"17px"}}>Enter File name</h5>
                     <TextInput style={{border:"0.5px solid lightgray",paddingRight:"140px",padding:"10px"} } placeholder="Enter here"  onChangeText={a=> setText(a)} defaultValue={""}></TextInput>
@@ -147,37 +271,21 @@ import { TextInput } from "react-native-web";
                <button id='addpopup'  onClick={()=>showPopUpSetting(true)}><FontAwesomeIcon icon={faSlidersH}  style={{width:"30px",height:"25px"}}/></button>
 
                 
-                <Pop  trigger={popupSetting} setTrigger={showPopUpSetting}>
-                  
+                <Pop  trigger={popupSetting} setTrigger={showPopUpSetting} >
                   <h3 style={{fontSize:"14px"}}>Set Pin</h3>
                   <h5 style={{fontSize:"18px"}}>Enter new pin</h5>
-                  <TextInput style={{border:"0.5px solid lightgray",paddingRight:"140px",padding:"10px"} } secureTextEntry={true} placeholder={"Enter here"} />
+                  <TextInput style={{border:"0.5px solid lightgray",paddingRight:"140px",padding:"10px"} } secureTextEntry={true} placeholder={"Enter here"} onChangeText={a=>setnewpin(a)}/>
                   <h5 style={{fontSize:"18px"}}>Confirm new </h5>
-                  <TextInput style={{border:"0.5px solid lightgray",paddingRight:"140px",padding:"10px"} } secureTextEntry={true} placeholder={"Enter here"}/><br/>
-                  <button id="save">Save changes</button>
+                  <TextInput style={{border:"0.5px solid lightgray",paddingRight:"140px",padding:"10px"} } secureTextEntry={true} placeholder={"Enter here"} onChangeText={b=>setconfirmnewpin(b)}/><br/>
+                  <button id="save" onClick={newPinfun}>Save changes</button>
                     
                   </Pop>
              </div>
              
         </div> 
         
-        );
-        
-        function Menu({items})
-        {
-            const [displayChildren,setDisplayChildren]=React.useState({});
-            return(
-         <ul>
-        {items.map((item)=>
-        (
-          <div key={item.title}>  <button id='displayFolder'  onClick={()=> {setDisplayChildren(
-            {...displayChildren,[item.title]: !displayChildren[item.title],
-          });
-    }}> {displayChildren[item.title] ? <FontAwesomeIcon icon={faFolderOpen}/> : <FontAwesomeIcon icon={faFolder}/>  }    {item.title } </button>  {displayChildren[item.title] && item.children && <Menu items={item.children}/>}  </div>
+    );
+            };  
 
-        ))}
-      </ul>
-            );
-        }
-      
-}export default Main;
+  
+export default Main;
