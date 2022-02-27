@@ -8,37 +8,50 @@ import Pop from '../Pop';
 import { TextInput } from "react-native-web";
 import {useLocation} from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
-// import Header from "./Header";
-// import "./Header.css";
 
 function Main()
 {
-  
-   
-    const menu=[{
-        title :"Some folder name",
-        children:[
-          {
-            title: " Folder name 2",
-            children : [
-              {
-                title: "Folder 3",
-                children:[],
-              },
-              {
-                title: "Folder 4",
-                children:[],
-              }
-            ],
-          }
-        ],
-       },
-      {
-        title:"Some folder name",
-        children:[],
-      }
-     ];
-   
+  const completeStructure = [
+    {
+      title: 'Folder 1',
+      id:Math.random,
+      path:[0],
+      children: [
+        {
+          title: 'Sub1',
+          id:Math.random,
+          path:[0,0],
+          children: [
+            {
+              title: 'Sub-Sub1',
+              path:[0,0,0],
+              id:Math.random,
+              children:[]
+            },
+          ],
+        },
+        {
+          title: 'Sub2',
+          id:Math.random,
+          path:[0,1],
+          children:[]
+        },
+      ],
+    },
+    {
+      title: 'Folder 2',
+      id:Math.random,
+      path:[1],
+      children: [
+        {
+          title: 'Sub 3',
+          path:[1,0],
+          id:Math.random,
+          children:[]
+        },
+      ],
+    },
+  ];
 
     const [darkMode,setDarkMode]=React.useState(false);
     React.useEffect(()=>
@@ -88,7 +101,11 @@ function Main()
   {
     if(location.state.password !==(a+b+c+d))
      {
-       alert("wrong password");
+        alert("wrong password");
+        setA("");
+        setB("");
+        setC("");
+        setD ("");
        return false;
      }
      showpopupLock(false);
@@ -124,16 +141,16 @@ function Main()
         <ul>
           {items.map((item) => {
             return (
-              <div key={item.title}>
+              <div key={item.title}> 
                   <button id="displayFolder"
                     onClick={() => {
                       setDisplayChildren({
                         ...displayChildren,
                         [item.title]: !displayChildren[item.title],
-                      }, currpos=item.path    );
+                      }, Updatecrumbs(item.title,item.path) );
                     }}
                   >
-                   {displayChildren[item.title] ? <FontAwesomeIcon icon={faFolderOpen}/> : <FontAwesomeIcon icon={faFolder}/>  }    {item.title }
+                   {displayChildren[item.title] ? <FontAwesomeIcon icon={faFolderOpen}/> : <FontAwesomeIcon icon={faFolder}/>  }    {item.title } {" "}
                   </button>
                 
                 {displayChildren[item.title]  && item.children && <Menu items={item.children} />}
@@ -143,23 +160,109 @@ function Main()
         </ul>
       );
     }
+    
+    var bread; 
+    
+    function Updatecrumbs(crumb,source)
+    {    
+      if(source.length === 1)
+      {
+        bread="";
+        bread+=crumb+"/";
+      }
+      else{
+        bread+=crumb+"/";
+      } 
+      Function2();
+      
+    }
+    var local;
+    function Function2()
+    {
+      local=bread;
+      console.log(local)
+    }
+    
+    
+    const [foldername,setFoldername]=React.useState("");
+    function AddFolder()
+    {
+      console.log(currpos)
+    //   if(currpos.length === 0 )
+    //   {
+    //     completeStructure[currpos].push(
+    //       {
+    //         title:foldername,
+    //         id:Math.random,
+    //         path:[completeStructure[currpos].length],
+    //         children:[]
+    //       }
+    //     )
+    //   }
+    //  else  if(currpos.length === 1)
+    //  {
+       
+    //     completeStructure[currpos].children.push({
+    //       title:foldername,
+    //       id:Math.random,
+    //       path:[currpos,completeStructure[currpos].children.length],
+    //       children:[]}
+    //     )     
+    //   }
+    //   else if( currpos.length === 2)
+    //   {
+    //     let pos1=currpos.toString().charAt(0)
+    //     let pos2=currpos.toString().charAt(2)
+
+    //       completeStructure[pos1].children[pos2].children.push({
+    //         title:foldername,
+    //         id:Math.random,
+    //         path:[pos1,pos2,completeStructure[pos1].children[pos2].length],
+    //         children:[]}
+    //       ) 
+    //   }
+    //   else if(currpos.length === 3)
+    //   {
+    //     let pos1=currpos.toString().charAt(0)
+    //     let pos2=currpos.toString().charAt(2)
+    //     let pos3=currpos.toString().charAt(4)
+    //     completeStructure[pos1].children[pos2].children[pos3].children.push({
+    //       title:foldername,
+    //       id:Math.random,
+    //       path:[pos1,pos2,pos3,completeStructure[pos1].children[pos2],completeStructure[pos3].length],
+    //       children:[]}
+    //     ) 
+    //   }
+    }
   
+  
+    
     const ref1=React.useRef();
     const ref2=React.useRef();
     const ref3=React.useRef();
     const ref4=React.useRef();
     const ref5=React.useRef();
-
     
-      //create initial menuCollapse state using useState hook
+
       const [menuCollapse, setMenuCollapse] = useState(false)
-  
-      //create a custom function that will change menucollapse state from false to true and true to false
     const menuIconClick = () => {
-      //condition checking to change state from true to false and vice versa
       menuCollapse ? setMenuCollapse(false) : setMenuCollapse(true);
     };
- 
+
+    React.useEffect(()=>
+    {
+      if(!menuCollapse)
+      {
+        document.body.classList.add("collapsed");
+      }
+      else
+      {
+        document.body.classList.remove("collapsed");
+      }
+    },[menuCollapse]);
+
+    
+    
     return(      
         <div className='Main' style={{display : 'flex'}}>
         
@@ -190,56 +293,47 @@ function Main()
                     <TextInput style={{border:"0.5px solid lightgray",paddingBottom:"500px",paddingRight:"200px",paddingLeft:"10px",paddingTop:"10px"}} placeholder={"Type anything here"}></TextInput>
                     <button id="save" onClick={createFile}>Create new</button>
                   </Pop>
-
+                    
                  <button id="addiconbutton" onClick={()=>showPopUpFolder(true)} style={{cursor:"pointer"}}><FontAwesomeIcon icon={faFolder} style={{padding: '0px 10px 0px 5px'}}/>Add Folder</button>
                  <Pop trigger={popupFolder} setTrigger={showPopUpFolder}  >
                   <h3 style={{fontSize:"14px"}}>Create Folder</h3>
                   <h5 style={{fontSize:"17px"}}>Enter Folder name</h5>
-                  <TextInput style={{border:"0.5px solid lightgray",paddingRight:"140px",padding:"10px"} } placeholder="Enter here"></TextInput>
-                  <button id="save">Create new</button>
+                  <TextInput style={{border:"0.5px solid lightgray",paddingRight:"140px",padding:"10px"} } placeholder="Enter here" onChangeText={a=>setFoldername(a)}></TextInput>
+                  <button id="save" onClick={AddFolder}>Create new</button>
                   </Pop> 
                  
                  </div>
                 <div>
-                    <Menu items={menu}/>
-                </div>
-                 <button id="lockbutton"  onClick={()=>showpopupLock(true)}><FontAwesomeIcon icon={faLock} style={{paddingRight:'15px'}} />Lock Screen</button>
-
-
-                 <Pop trigger={popupLock}  >
-                 <h3 style={{fontSize:"18px",marginLeft:"30px",fontFamily:"Bold"}}>Enter Account Pin</h3> 
-                   <div style={{display:"flex"}}>
-                  <TextInput  style={{height:"60px",border:"0.5px solid lightgray",margin:"20px",width:"70px",textAlign:"center"}} ref={ref1}  maxLength={1} value={a}  secureTextEntry={true}  onChangeText={(value)=>{setA(value);ref2.current.focus();}  }  />
-                  
-                   
-                  <TextInput  style={{height:"60px",border:"0.5px solid lightgray",margin:"20px",width:"70px",textAlign:"center"}} ref={ref2} maxLength={1} value={b}  secureTextEntry={true}  onChangeText={(value)=>{setB(value);ref3.current.focus();}}/> 
-                   <TextInput   style={{height:"60px",border:"0.5px solid lightgray",margin:"20px",width:"70px",textAlign:"center"}} ref={ref3}  maxLength={1} value={c}  secureTextEntry={true}  onChangeText={(value)=>{setC(value);ref4.current.focus();}} 
-                  
-                  /> 
+                    <Menu items={completeStructure}/>
                    
                     
-                  <TextInput   style={{height:"60px",border:"0.5px solid lightgray",margin:"20px",width:"70px",textAlign:"center"}} ref={ref4}  maxLength={1} value={d}  secureTextEntry={true}  onChangeText={(value)=>{setD(value);ref5.current.focus();}} 
-                  
-                    /> 
-                   
+                </div>
+                 <button id="lockbutton"  onClick={()=>{showpopupLock(true)} }><FontAwesomeIcon icon={faLock} style={{paddingRight:'15px'}} />Lock Screen</button>
+
+
+                 <Pop trigger={popupLock} >
+                 <h3 style={{fontSize:"18px",marginLeft:"30px"}} >Enter Account Pin</h3> 
+                   <div style={{display:"flex"}}>
+                  <TextInput  style={{height:"60px",border:"0.5px solid lightgray",margin:"20px",width:"70px",textAlign:"center"}} ref={ref1}  maxLength={1} value={a}  secureTextEntry={true}  onChangeText={(value)=>{setA(value);ref2.current.focus();}  }  />      
+                  <TextInput  style={{height:"60px",border:"0.5px solid lightgray",margin:"20px",width:"70px",textAlign:"center"}} ref={ref2} maxLength={1} value={b}  secureTextEntry={true}  onChangeText={(value)=>{setB(value);ref3.current.focus();}}/> 
+                  <TextInput   style={{height:"60px",border:"0.5px solid lightgray",margin:"20px",width:"70px",textAlign:"center"}} ref={ref3}  maxLength={1} value={c}  secureTextEntry={true}  onChangeText={(value)=>{setC(value);ref4.current.focus();}} /> 
+                  <TextInput   style={{height:"60px",border:"0.5px solid lightgray",margin:"20px",width:"70px",textAlign:"center"}} ref={ref4}  maxLength={1} value={d}  secureTextEntry={true}  onChangeText={(value)=>{setD(value);ref5.current.focus();}} /> 
                    </div>
-                  
-                  
+                   
                   <button id="save" ref={ref5} onClick={ validate}>Enter</button>
                   </Pop > 
           </div>
           </SidebarFooter>
           </ProSidebar> </div>
             
-               
-
+             
              <div id='right'>
-
-                <div id="searchbox" style={{display:"flex"}}>
+               
+                <div id="searchbox" style={{display:"flex"}}    >
                 <FontAwesomeIcon style={{margin:"5px 10px 5px 0px"}}  icon={faSearch} />
                 <p style={{margin:"2px 0px 5px 0px"}}>Search Files and Folders</p>
                 </div>
-
+                
             </div>
               <div id="right">
                 <button id="addiconbutton" onClick={()=> setDarkMode(!darkMode)}><FontAwesomeIcon style={{padding:"0.5px "}} icon={darkMode ? faSun : faMoon}/>{darkMode ? " Light Mode" : " Dark Mode"}</button>
@@ -278,14 +372,14 @@ function Main()
                   <h5 style={{fontSize:"18px"}}>Confirm new </h5>
                   <TextInput style={{border:"0.5px solid lightgray",paddingRight:"140px",padding:"10px"} } secureTextEntry={true} placeholder={"Enter here"} onChangeText={b=>setconfirmnewpin(b)}/><br/>
                   <button id="save" onClick={newPinfun}>Save changes</button>
-                    
                   </Pop>
+
              </div>
-             
         </div> 
         
     );
             };  
+            
 
   
 export default Main;

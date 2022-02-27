@@ -63,7 +63,7 @@
 
 #searchbox
 {
-    margin: 40px 150px 0px 10px;
+    margin: 40px 150px 0px 50px;
     border:1px solid lightgray ;
     border-radius: 5px;
     padding: 5px 300px 5px 10px ;
@@ -109,6 +109,10 @@
 }
 
 
+.collapsed #searchbox
+{
+    margin: 40px 0px 0px 500px;
+}
 
 
 #save
