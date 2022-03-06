@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import './App.css';
 import {Link,Redirect} from "react-router-dom";
 import {useNavigate} from "react-router";
-
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome" ;
+import { faEye,faLowVision } from "@fortawesome/fontawesome-free-solid";
 import {TextInput} from "react-native-web";
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
       }
       navigate("/main",{state:{password:pin}});
   }
+  const [passvisible,setPassVisible]=React.useState(false);
   return (
     <div className="App">
       
@@ -43,9 +45,14 @@ function App() {
 
       <div className='rightdiv' style={{float:"right"}}>
         <h1 className='insideh1'>Set your account pin</h1>
-        <TextInput style={{border:"0.5px solid lightgray",paddingRight:"200px",padding:"15px",marginLeft:"40px",paddingLeft:"20px",marginBottom:"20px"} } secureTextEntry={true} placeholder='Enter new pin' onChangeText={a=>setPin(a)}></TextInput><br/>
-        <TextInput style={{border:"0.5px solid lightgray",paddingRight:"200px",padding:"15px",marginLeft:"40px",paddingLeft:"20px"} } secureTextEntry={true}  placeholder='Confirm new pin' onChangeText={b=>setconfirmPin(b)}></TextInput><br/>
-       
+        <view>
+        <TextInput style={{border:"0.5px solid lightgray",paddingRight:"170px",padding:"15px",marginLeft:"40px",paddingLeft:"20px",marginTop:"20px",borderRight:"none"} } secureTextEntry={!passvisible} placeholder="Enter Pin" onChangeText={a=>setPin(a)} />
+    <FontAwesomeIcon  icon={passvisible ? faLowVision : faEye} onClick={()=>setPassVisible(!passvisible)}/> <br/>
+    </view>
+    <TextInput style={{border:"0.5px solid lightgray",paddingRight:"170px",padding:"15px",marginLeft:"40px",paddingLeft:"20px",marginTop:"20px",borderRight:"none"} } secureTextEntry={!passvisible} placeholder="Confrim your pin" onChangeText={b=>setconfirmPin(b)} />
+    <FontAwesomeIcon  icon={passvisible ? faLowVision : faEye} onClick={()=>setPassVisible(!passvisible)}/> <br/>
+        
+        
         <button className='buttonsavechanges' onClick={handleClick} >Save Changes</button> 
       </div>
 
