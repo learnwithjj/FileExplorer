@@ -9,6 +9,7 @@ import { TextInput } from "react-native-web";
 import {useLocation} from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 
+
 function Main()
 {
   const completeStructure = [
@@ -154,7 +155,7 @@ function Main()
                       setDisplayChildren({
                         ...displayChildren,
                         [item.title]: !displayChildren[item.title],
-                      }, Updatecrumbs(item.title,item.path),localStorage.setItem("value",JSON.stringify(item.path)));
+                      }, Updatecrumbs(item.title,item.path,item.type),localStorage.setItem("value",JSON.stringify(item.path)));
                     }}  
                   >
                    {item.type === "file" ? <FontAwesomeIcon icon={faFile}/>: displayChildren[item.title] ? <FontAwesomeIcon icon={faFolderOpen}/> : <FontAwesomeIcon icon={faFolder}/>   }    {item.title } {" "}
@@ -169,9 +170,11 @@ function Main()
     }
     
     var bread="/"; 
-    
-    function Updatecrumbs(crumb,source)
+    const [breadc,setBreadc]=React.useState("");
+    function Updatecrumbs(crumb,source,type)
     {    
+      if(type === "folder")
+    {
       if(source.length === 1)
       {
         bread="";
@@ -179,14 +182,22 @@ function Main()
       }
       else{
         bread+=crumb+"/";
-  
+
       } 
-      console.log(bread);
- 
+    }
+      setBreadc(bread);
+      localStorage.setItem('crumb',bread);
       }
-      
-    
-    
+      const DisplayCrumb =({displaycrumb})=>
+  {
+    const [value,setValue]=React.useState("");
+    React.useEffect(()=>
+    {
+      setValue(breadc);
+    },[]);
+    return(<div>{value }</div>)
+  }
+
     const [foldername,setFoldername]=React.useState(false);
     const [textEdit,setTextEdit]=React.useState(false);
     const [filename,setFilename]=React.useState(false);
@@ -346,26 +357,39 @@ function Main()
         document.body.classList.remove("collapsed");
       }
     },[menuCollapse]);
-
     
+    
+    function Display({items})
+  {
+    console.log(localStorage.getItem("children"));
+    return(
+        items.map((item)=>
+        (
+          <div style={{margin:"40px"}}>
+          {item.type === "folder" ? <div><img src="Folder.png" alt=""/><p style={{color:"cadetblue"}}>{item.title}</p> </div>: <div><img src="File.png" alt=""/><p style={{color:"cadetblue"}}>{item.title}</p> </div>}</div>
+          
+        ))
+    );
+  }
+  
   
     return(      
         <div className='Main' style={{display : 'flex'}}>
         
         <div id="header" >
         <ProSidebar collapsed={menuCollapse}>
-          <SidebarHeader>
-          
-            <div className="closemenu" onClick={menuIconClick}>
-                {/* changing menu collapse icon on click */}
-              {menuCollapse ? (
-                <FontAwesomeIcon icon={faArrowAltCircleRight}/>
-              ) : (
-                <FontAwesomeIcon icon={faArrowAltCircleLeft}/>
-              )}
-            </div>
-          </SidebarHeader>
-        <div className="left" >
+            <SidebarHeader>
+            
+              <div className="closemenu" onClick={menuIconClick}>
+                  {/* changing menu collapse icon on click */}
+                {menuCollapse ? (
+                  <FontAwesomeIcon icon={faArrowAltCircleRight}/>
+                ) : (
+                  <FontAwesomeIcon icon={faArrowAltCircleLeft}/>
+                )}
+              </div>
+            </SidebarHeader>
+         <div className="left" >
           <img src='symbol.PNG' alt='' id="img1"></img> 
                 <div style={{display: 'flex'}}>
                  <button id="addiconbutton" onClick={()=>showPopUpFile(true)} style={{cursor:"pointer"}}><FontAwesomeIcon icon={faFile} style={{padding: '0px 10px 0px 5px'}}/>Add File</button>
@@ -391,13 +415,10 @@ function Main()
                  
                  </div>
                 <div>
-                    <Menu items={completeStructure}></Menu>
-                   
-                    
+                    <Menu items={completeStructure}></Menu>  
                 </div>
+
                  <button id="lockbutton"  onClick={()=>{showpopupLock(true); }  }><FontAwesomeIcon icon={faLock} style={{paddingRight:'15px'}} />Lock Screen</button>
-
-
                  <Pop trigger={popupLock} >
                  <h3 style={{fontSize:"18px",marginLeft:"30px"}} >Enter Account Pin</h3> 
                    <div style={{display:"flex"}} >
@@ -410,18 +431,25 @@ function Main()
                   <button id="save" ref={ref5} onClick={ validate}>Enter</button>
                   </Pop > 
           </div>
+          
          </ProSidebar>
-           </div>
-            
-             
-             <div id='right'>
-                
-                <div id="searchbox" style={{display:"flex"}}    >
-                <FontAwesomeIcon style={{margin:"5px 10px 5px 0px"}}  icon={faSearch} />
-                <p style={{margin:"2px 0px 5px 0px"}}>Search Files and Folders</p>
-                </div>
-                
+
+          </div>
+          <div id='right'>
+
+            <div id="searchbox" style={{display:"flex"}}>
+            <FontAwesomeIcon style={{margin:"5px 10px 5px 0px"}}  icon={faSearch} />
+            <TextInput type="text"  placeholder="Search " />
             </div>
+                <div id="crumb"><DisplayCrumb displaycrumb={breadc}/> </div>
+
+
+                <div id="display" >
+                <Display items={completeStructure}/>
+                </div>
+                </div>
+
+
               <div id="right">
                 <button id="addiconbutton" onClick={()=> setDarkMode(!darkMode)}><FontAwesomeIcon style={{padding:"0.5px "}} icon={darkMode ? faSun : faMoon}/>{darkMode ? " Light Mode" : " Dark Mode"}</button>
               
