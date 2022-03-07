@@ -1,8 +1,8 @@
-import {ProSidebar,SidebarHeader,SidebarFooter, SidebarContent} from "react-pro-sidebar";
+import {ProSidebar,SidebarHeader} from "react-pro-sidebar";
 import './main.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faFile,faFolder,faPlusCircle,faSearch,faSun,faMoon,faLock,faSlidersH, faFolderOpen,faArrowAltCircleLeft,faArrowAltCircleRight} from '@fortawesome/fontawesome-free-solid';
-import React, { useCallback ,useState} from 'react';
+import React from 'react';
 import Popup from 'reactjs-popup';
 import Pop from '../Pop'; 
 import { TextInput } from "react-native-web";
@@ -143,7 +143,7 @@ function Main()
     
    
     function Menu({ items }) {
-      const [displayChildren, setDisplayChildren] = useState({});
+      const [displayChildren, setDisplayChildren] = React.useState({});
       
       return (
         <ul>
@@ -341,7 +341,7 @@ function Main()
     const ref5=React.useRef();
     
 
-      const [menuCollapse, setMenuCollapse] = useState(false)
+      const [menuCollapse, setMenuCollapse] = React.useState(false)
     const menuIconClick = () => {
       menuCollapse ? setMenuCollapse(false) : setMenuCollapse(true);
     };
@@ -399,7 +399,7 @@ function Main()
                     <h5 style={{fontSize:"17px"}}>Enter File name</h5>
                     <TextInput style={{border:"0.5px solid lightgray",paddingRight:"140px",padding:"10px"} } placeholder="Enter here"  onChangeText={a=> setFilename(a)} ></TextInput>
                     <h3 style={{fontSize:"14px"}}>Edit Text</h3>
-                    <TextInput style={{border:"0.5px solid lightgray",paddingBottom:"500px",paddingRight:"200px",paddingLeft:"10px",paddingTop:"10px"}} placeholder="Type anything here" onChangeText={a=>setTextEdit(a)}></TextInput>
+                    <TextInput style={{border:"0.5px solid lightgray",paddingBottom:"200px",paddingRight:"200px",paddingLeft:"10px",paddingTop:"10px"}} placeholder="Type anything here" onChangeText={a=>setTextEdit(a)}></TextInput>
                     <button id="save" onClick={addFile } >Create new</button>
                   </Pop>
                   
@@ -415,7 +415,7 @@ function Main()
                  
                  </div>
                 <div>
-                    <Menu items={completeStructure}></Menu>  
+                    <Menu items={completeStructure}/> 
                 </div>
 
                  <button id="lockbutton"  onClick={()=>{showpopupLock(true); }  }><FontAwesomeIcon icon={faLock} style={{paddingRight:'15px'}} />Lock Screen</button>
@@ -451,7 +451,7 @@ function Main()
 
 
               <div id="right">
-                <button id="addiconbutton" onClick={()=> setDarkMode(!darkMode)}><FontAwesomeIcon style={{padding:"0.5px "}} icon={darkMode ? faSun : faMoon}/>{darkMode ? " Light Mode" : " Dark Mode"}</button>
+                <button id="addDarkMode" onClick={()=> setDarkMode(!darkMode)}><FontAwesomeIcon style={{padding:"0.5px "}} icon={darkMode ? faSun : faMoon}/>{darkMode ? " Light Mode" : " Dark Mode"}</button>
               
               <Popup trigger={<button id="addpopup" ><FontAwesomeIcon icon={faPlusCircle} style={{width:"30px",height:"25px"}} /></button>} position="bottom center" > 
 
@@ -470,7 +470,7 @@ function Main()
                     <h5 style={{fontSize:"17px"}}>Enter File name</h5>
                     <TextInput style={{border:"0.5px solid lightgray",paddingRight:"140px",padding:"10px"} } placeholder="Enter here"  onChangeText={a=> setFilename(a)} ></TextInput>
                     <h3 style={{fontSize:"14px"}}>Edit Text</h3>
-                    <TextInput style={{border:"0.5px solid lightgray",paddingBottom:"500px",paddingRight:"200px",paddingLeft:"10px",paddingTop:"10px"}} placeholder="Type anything here" onChangeText={a=>setTextEdit(a)}></TextInput>
+                    <TextInput style={{border:"0.5px solid lightgray",paddingBottom:"200px",paddingRight:"200px",paddingLeft:"10px",paddingTop:"10px"}} placeholder="Type anything here" onChangeText={a=>setTextEdit(a)}></TextInput>
                     <button id="save" >Create new</button>
                   </Pop>
               </Popup>

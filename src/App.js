@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import './App.css';
-import {Link,Redirect} from "react-router-dom";
+import {} from "react-router-dom";
 import {useNavigate} from "react-router";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome" ;
 import { faEye,faLowVision } from "@fortawesome/fontawesome-free-solid";
@@ -13,47 +13,39 @@ function App() {
   
   function handleClick()
   {
-      if(pin.length===0 || confirmpin.length===0)
-      {
-        alert("Empty field");
+    if(pin.length===0 || confirmpin.length===0)
+    {
+      alert("Empty field");
+      return;
+    }
+    if(pin.length !== 4 && confirmpin.length!==4 && pin !==confirmpin && isNaN(pin))
+    { 
+        alert("Type again...");
         return;
-      }
-      else if(pin.length !== 4 || confirmpin.length!==4 && pin !==confirmpin && isNaN(pin))
-      { 
-          alert("Type again...");
-          return;
-      }
-      navigate("/main",{state:{password:pin}});
+    }
+        navigate("/main",{state:{password:pin}});
   }
   const [passvisible,setPassVisible]=React.useState(false);
   return (
     <div className="App">
-      
-
       <img src='symbol.PNG' alt='' id="img1"></img> 
-
       <div id="box-container" >
-
       <div className='leftdiv'>
       <h1 className='h1leftdiv'>Welcome to your dashboard</h1>
       <h3 className='h3leftdiv'>This is the homepage of your file explorer, set your pin and start</h3>
-
-     
-      
       <img src="home2.PNG" alt=""></img>
       </div>
-
       <div className='rightdiv' style={{float:"right"}}>
-        <h1 className='insideh1'>Set your account pin</h1>
-        <view>
-        <TextInput style={{border:"0.5px solid lightgray",paddingRight:"170px",padding:"15px",marginLeft:"40px",paddingLeft:"20px",marginTop:"20px",borderRight:"none"} } secureTextEntry={!passvisible} placeholder="Enter Pin" onChangeText={a=>setPin(a)} />
+        <h1 className='insideh1'>Set your 4-digit account pin </h1>
+    <view>
+    <TextInput style={{border:"0.5px solid lightgray",paddingRight:"140px",padding:"15px",marginLeft:"40px",paddingLeft:"20px",marginTop:"20px",borderRight:"none"}}  placeholder="Enter Pin"  maxLength={4} secureTextEntry={!passvisible}  onChangeText={a=>setPin(a)}    /> 
     <FontAwesomeIcon  icon={passvisible ? faLowVision : faEye} onClick={()=>setPassVisible(!passvisible)}/> <br/>
     </view>
-    <TextInput style={{border:"0.5px solid lightgray",paddingRight:"170px",padding:"15px",marginLeft:"40px",paddingLeft:"20px",marginTop:"20px",borderRight:"none"} } secureTextEntry={!passvisible} placeholder="Confrim your pin" onChangeText={b=>setconfirmPin(b)} />
+    <TextInput style={{border:"0.5px solid lightgray",paddingRight:"140px",padding:"15px",marginLeft:"40px",paddingLeft:"20px",marginTop:"20px",borderRight:"none"}}  placeholder="Confirm Pin" maxLength={4} secureTextEntry={!passvisible}   onChangeText={a=>setconfirmPin(a)}   /> 
     <FontAwesomeIcon  icon={passvisible ? faLowVision : faEye} onClick={()=>setPassVisible(!passvisible)}/> <br/>
         
         
-        <button className='buttonsavechanges' onClick={handleClick} >Save Changes</button> 
+        <button className='buttonsavechanges'   onClick={handleClick} >Save Changes</button> 
       </div>
 
 

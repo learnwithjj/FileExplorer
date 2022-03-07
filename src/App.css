@@ -33,7 +33,7 @@
     border-radius: 15px;
     height: max-content;
     position: relative;
-    margin: 150px 100px 0px 240px;   
+    margin: 150px 100px 0px 150px;   
 }
 
 .insideh1
@@ -46,7 +46,7 @@
 #inputtype
 {
     margin: 15px 60px 20px 60px;
-    padding: 10px 150px 10px 15px;
+    padding: 10px 170px 10px 15px;
     border-radius: 5px;
     font-size: 15px;
     border-width: 0.5px;
