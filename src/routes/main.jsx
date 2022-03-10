@@ -1,7 +1,7 @@
 import {ProSidebar,SidebarHeader} from "react-pro-sidebar";
 import './main.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faFile,faFolder,faPlusCircle,faSearch,faSun,faMoon,faLock,faSlidersH, faFolderOpen,faArrowAltCircleLeft,faArrowAltCircleRight} from '@fortawesome/fontawesome-free-solid';
+import {faEye,faLowVision,faFile,faFolder,faPlusCircle,faSearch,faSun,faMoon,faLock,faSlidersH, faFolderOpen,faArrowAltCircleLeft,faArrowAltCircleRight} from '@fortawesome/fontawesome-free-solid';
 import React from 'react';
 import Popup from 'reactjs-popup';
 import Pop from '../Pop'; 
@@ -361,7 +361,6 @@ function Main()
     
     function Display({items})
   {
-    console.log(localStorage.getItem("children"));
     return(
         items.map((item)=>
         (
@@ -371,7 +370,7 @@ function Main()
         ))
     );
   }
-  
+  const [passvisible,setPassVisible]=React.useState(false);
   
     return(      
         <div className='Main' style={{display : 'flex'}}>
@@ -459,7 +458,7 @@ function Main()
                   <Pop trigger={popupFolder} setTrigger={showPopUpFolder} >
                   <h3 style={{fontSize:"14px"}}>Create Folder</h3>
                   <h5 style={{fontSize:"17px"}}>Enter Folder name</h5>
-                  <TextInput style={{border:"0.5px solid lightgray",paddingRight:"140px",padding:"10px"} } placeholder="Enter here"></TextInput>
+                  <TextInput style={{border:"0.5px solid lightgray",paddingRight:"140px",padding:"10px"} } placeholder="Enter here" onChangeText={a=> setFoldername(a)}></TextInput>
                   <button id="save" onClick={addFolder} >Create new</button>
                   </Pop>
 
@@ -480,9 +479,12 @@ function Main()
                 <Pop  trigger={popupSetting} setTrigger={showPopUpSetting} >
                   <h3 style={{fontSize:"14px"}}>Set Pin</h3>
                   <h5 style={{fontSize:"18px"}}>Enter new pin</h5>
-                  <TextInput style={{border:"0.5px solid lightgray",paddingRight:"140px",padding:"10px"} } secureTextEntry={true} placeholder={"Enter here"} onChangeText={a=>setnewpin(a)}/>
-                  <h5 style={{fontSize:"18px"}}>Confirm new </h5>
-                  <TextInput style={{border:"0.5px solid lightgray",paddingRight:"140px",padding:"10px"} } secureTextEntry={true} placeholder={"Enter here"} onChangeText={b=>setconfirmnewpin(b)}/><br/>
+                  
+                  <TextInput style={{border:"0.5px solid lightgray",paddingRight:"140px",padding:"15px",marginLeft:"40px",paddingLeft:"20px",marginTop:"20px",borderRight:"none"}}  placeholder="Enter New Pin"  maxLength={4} secureTextEntry={!passvisible}  onChangeText={a=>setnewpin(a)}    /> 
+    <FontAwesomeIcon  icon={passvisible ? faLowVision : faEye} onClick={()=>setPassVisible(!passvisible)}/> <br/>
+                  <h5 style={{fontSize:"18px"}}>Confirm new Pin</h5>
+                  <TextInput style={{border:"0.5px solid lightgray",paddingRight:"140px",padding:"15px",marginLeft:"40px",paddingLeft:"20px",marginTop:"20px",borderRight:"none"}}  placeholder="Enter New Pin"  maxLength={4} secureTextEntry={!passvisible}  onChangeText={a=>setconfirmnewpin(a)}    /> 
+    <FontAwesomeIcon  icon={passvisible ? faLowVision : faEye} onClick={()=>setPassVisible(!passvisible)}/> <br/>
                   <button id="save" onClick={newPinfun}>Save changes</button>
                   </Pop>
                   
