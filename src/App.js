@@ -39,10 +39,10 @@ function App() {
         <h1 className='insideh1'>Set your 4-digit account pin </h1>
     <view>
     <TextInput style={{border:"0.5px solid lightgray",paddingRight:"140px",padding:"15px",marginLeft:"40px",paddingLeft:"20px",marginTop:"20px",borderRight:"none"}}  placeholder="Enter Pin"  maxLength={4} secureTextEntry={!passvisible}  onChangeText={a=>setPin(a)}    /> 
-    <FontAwesomeIcon  icon={passvisible ? faLowVision : faEye} onClick={()=>setPassVisible(!passvisible)}/> <br/>
+    <FontAwesomeIcon  icon={passvisible ? faLowEye : faLowVision} onClick={()=>setPassVisible(!passvisible)}/> <br/>
     </view>
     <TextInput style={{border:"0.5px solid lightgray",paddingRight:"140px",padding:"15px",marginLeft:"40px",paddingLeft:"20px",marginTop:"20px",borderRight:"none"}}  placeholder="Confirm Pin" maxLength={4} secureTextEntry={!passvisible}   onChangeText={a=>setconfirmPin(a)}   /> 
-    <FontAwesomeIcon  icon={passvisible ? faLowVision : faEye} onClick={()=>setPassVisible(!passvisible)}/> <br/>
+    <FontAwesomeIcon  icon={passvisible ? faLowEye : faLowVision} onClick={()=>setPassVisible(!passvisible)}/> <br/>
         
         
         <button className='buttonsavechanges'   onClick={handleClick} >Save Changes</button> 
