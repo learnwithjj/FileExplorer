@@ -231,54 +231,66 @@ function Main()
     {
       if(localStorage.getItem("addFile")==="yes")
       {
-        var currpos=localStorage.getItem("value");
-        if(currpos.length === 3)
-        {
-          var pos=currpos.charAt(1);
-          completeStructure[pos].children.push(
-            {
-              title:filename,
-              id:Math.random,
-              type:"file",
-              path:[pos,completeStructure[pos].children.length],
-              text:textEdit,
-              children:[]
-            }
-          )
-          localStorage.setItem("add","no");
-        }
-        else if(currpos.length === 5)
-        {
-          var pos1=currpos.charAt(1);
-          var pos2=currpos.charAt(3);
-          completeStructure[pos1].children[pos2].children.push(
-            {
-              title:filename,
-              id:Math.random,
-              type:"file",
-              path:[pos1,pos2,completeStructure[pos1].children[pos2].children.length],
-              text:textEdit,
-              children:[]
-            })
-            localStorage.setItem("add","no");
-        }
-        else if(currpos.length === 7)
-        {
-          // var pos1=currpos.charAt(1);
-          var p1=currpos.charAt(1);
-          var p2=currpos.charAt(3);
-          var pos3=currpos.charAt(5);
-          completeStructure[p1].children[p2].children[pos3].children.push(
-            {
-              title:filename,
-              id:Math.random,
-              type:"file",
-              path:[p1,p2,pos3,completeStructure[p1].children[p2].children[pos3].children.length],
-              text:textEdit,
-              children:[]
-            })
-            localStorage.setItem("add","no");
-        }
+        // var currpos=localStorage.getItem("value");
+        completeStructure[0].children.push(
+          {
+            title:filename,
+            id:Math.random,
+            type:"file",
+            path:[0,completeStructure[0].children.length],
+            text:textEdit,
+            children:[]
+          }
+        )
+        localStorage.setItem("add","no");
+
+        // if(currpos.length === 3)
+        // {
+        //   var pos=currpos.charAt(1);
+        //   completeStructure[pos].children.push(
+        //     {
+        //       title:filename,
+        //       id:Math.random,
+        //       type:"file",
+        //       path:[pos,completeStructure[pos].children.length],
+        //       text:textEdit,
+        //       children:[]
+        //     }
+        //   )
+        //   localStorage.setItem("add","no");
+        // }
+        // else if(currpos.length === 5)
+        // {
+        //   var pos1=currpos.charAt(1);
+        //   var pos2=currpos.charAt(3);
+        //   completeStructure[pos1].children[pos2].children.push(
+        //     {
+        //       title:filename,
+        //       id:Math.random,
+        //       type:"file",
+        //       path:[pos1,pos2,completeStructure[pos1].children[pos2].children.length],
+        //       text:textEdit,
+        //       children:[]
+        //     })
+        //     localStorage.setItem("add","no");
+        // }
+        // else if(currpos.length === 7)
+        // {
+        //   // var pos1=currpos.charAt(1);
+        //   var p1=currpos.charAt(1);
+        //   var p2=currpos.charAt(3);
+        //   var pos3=currpos.charAt(5);
+        //   completeStructure[p1].children[p2].children[pos3].children.push(
+        //     {
+        //       title:filename,
+        //       id:Math.random,
+        //       type:"file",
+        //       path:[p1,p2,pos3,completeStructure[p1].children[p2].children[pos3].children.length],
+        //       text:textEdit,
+        //       children:[]
+        //     })
+        //     localStorage.setItem("add","no");
+        // }
       }
     })
  
@@ -286,51 +298,61 @@ function Main()
     {
       if(localStorage.getItem("addFolder")==="yes")
       {
-        var currpos=localStorage.getItem("value");
-        if(currpos.length === 3)
-        {
-          var pos=currpos.charAt(1);
-          completeStructure[pos].children.push(
-            {
-              title:foldername,
-              id:Math.random,
-              type:"folder",
-              path:[pos,completeStructure[pos].children.length],
-              children:[]
-            }
-          )
-          localStorage.setItem("add","no");
-        }
-        else if(currpos.length === 5)
-        {
-          var pos1=currpos.charAt(1);
-          var pos2=currpos.charAt(3);
-          completeStructure[pos1].children[pos2].children.push(
-            {
-              title:foldername,
-              id:Math.random,
-              type:"folder",
-              path:[pos1,pos2,completeStructure[pos1].children[pos2].children.length],
-              children:[]
-            })
-            localStorage.setItem("add","no");
-        }
-        else if(currpos.length === 7)
-        {
-          // var pos1=currpos.charAt(1);
-          var p1=currpos.charAt(1);
-          var p2=currpos.charAt(3);
-          var pos3=currpos.charAt(5);
-          completeStructure[p1].children[p2].children[pos3].children.push(
-            {
-              title:foldername,
-              id:Math.random,
-              type:"folder",
-              path:[p1,p2,pos3,completeStructure[p1].children[p2].children[pos3].children.length],
-              children:[]
-            })
-            localStorage.setItem("add","no");
-        }
+        // var currpos=localStorage.getItem("value");
+        completeStructure[0].children.push(
+          {
+            title:foldername,
+            id:Math.random,
+            type:"folder",
+            path:[0,completeStructure[0].children.length],
+            children:[]
+          }
+        )
+        localStorage.setItem("add","no");
+        // if(currpos.length === 3)
+        // {
+        //   var pos=currpos.charAt(1);
+        //   completeStructure[pos].children.push(
+        //     {
+        //       title:foldername,
+        //       id:Math.random,
+        //       type:"folder",
+        //       path:[pos,completeStructure[pos].children.length],
+        //       children:[]
+        //     }
+        //   )
+        //   localStorage.setItem("add","no");
+        // }
+        // else if(currpos.length === 5)
+        // {
+        //   var pos1=currpos.charAt(1);
+        //   var pos2=currpos.charAt(3);
+        //   completeStructure[pos1].children[pos2].children.push(
+        //     {
+        //       title:foldername,
+        //       id:Math.random,
+        //       type:"folder",
+        //       path:[pos1,pos2,completeStructure[pos1].children[pos2].children.length],
+        //       children:[]
+        //     })
+        //     localStorage.setItem("add","no");
+        // }
+        // else if(currpos.length === 7)
+        // {
+        //   // var pos1=currpos.charAt(1);
+        //   var p1=currpos.charAt(1);
+        //   var p2=currpos.charAt(3);
+        //   var pos3=currpos.charAt(5);
+        //   completeStructure[p1].children[p2].children[pos3].children.push(
+        //     {
+        //       title:foldername,
+        //       id:Math.random,
+        //       type:"folder",
+        //       path:[p1,p2,pos3,completeStructure[p1].children[p2].children[pos3].children.length],
+        //       children:[]
+        //     })
+        //     localStorage.setItem("add","no");
+        // }
       }
     })
  
